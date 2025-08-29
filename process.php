@@ -39,7 +39,20 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
         $result = $result?"'$substring' is found at position '$result'" : "'$substring' id not found!";
         break;
     case 'substr':
-        $result = substr($inputText,$_POST['start'],$_POST['length']);
+        if (isset($_POST['start']) && is_numeric($_POST['start'])) {
+            $start = intval($_POST['start']);
+            if (isset($_POST['length']) && is_numeric($_POST['length']) && $_POST['length'>0]) {
+            $length = intval($_POST['length']);
+            $result = substr($inputText,$start,$length);
+               
+            }
+            else {
+                $result = substr($inputText,$start);
+            }
+        }
+        else {
+            $result = "Start Position is not provided or invalid for substr operation !";
+        }
          break;
     case  'numeric':
         $result = is_numeric($inputText)? "Numerical !": "Not Numeric";
